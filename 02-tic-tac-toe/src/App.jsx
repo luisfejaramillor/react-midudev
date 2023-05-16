@@ -17,29 +17,56 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
   );
 };
 
+const WINNER_COMBOS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
 export const App = () => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [turn, setTurn] = useState(TURNS.X);
+  const [winner, setWinner] = useState(null);
   const updateBoard = (index) => {
+    if (board[index] || winner) return;
     const newBoard = [...board];
     newBoard[index] = turn;
     setBoard(newBoard);
 
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
     setTurn(newTurn);
+    const newWinner = checkWinner(newBoard);
+    if (newWinner) {
+      setWinner(newWinner);
+    }
   };
 
+  const checkWinner = (boardTocheck) => {
+    for (const combo of WINNER_COMBOS) {
+      const [a, b, c] = combo;
+
+      if (
+        boardTocheck[a] &&
+        boardTocheck[a] === boardTocheck[b] &&
+        boardTocheck[a] === boardTocheck[c]
+      ) {
+        return boardTocheck[a];
+      }
+    }
+    return null;
+  };
   return (
     <main className="board">
       <h1>Tic tac toe</h1>
       <section className="game">
         {board.map((_, index) => {
           return (
-            <Square
-              key={index}
-              index={index}
-              updateBoard={updateBoard}
-            >
+            <Square key={index} index={index} updateBoard={updateBoard}>
               {board[index]}
             </Square>
           );
