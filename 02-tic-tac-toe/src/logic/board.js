@@ -15,7 +15,12 @@ export const checkWinner = (boardTocheck) => {
   return null;
 };
 
-
 export const checkEndGame = (newBoard) => {
   return newBoard.every((square) => square !== null);
+};
+
+export const removeItemLocalStorage = (items) => {
+  items?.forEach((item) => {
+    window.localStorage.removeItem(item);
+  });
 };

@@ -14,4 +14,6 @@ const WINNER_COMBOS = [
   [2, 4, 6],
 ];
 
-export {TURNS, WINNER_COMBOS}
+const LOCAL_STORAGE_ITEMS = ["board", "turn"];
+
+export { TURNS, WINNER_COMBOS, LOCAL_STORAGE_ITEMS };
